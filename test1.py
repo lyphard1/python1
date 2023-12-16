@@ -1,6 +1,7 @@
 # OK (Windowsで動作確認済み)
 import pandas as pd
 import re  # 正規表現ライブラリをインポート
+import glob
 
 #########################################
 # 5列目のデータからアルファベットのみの文字列を抽出する関数の定義
@@ -17,7 +18,12 @@ def extract_alpha(cell):
 #########################################
 
 # 元のファイルパスを指定
-file_path = 'dividendlist.csv'
+# 一つしかないと仮定して、ファイルパスを指定
+tmp_file_path = 'dividendlist*.csv'
+matching_files = glob.glob(tmp_file_path)
+for file_path in matching_files:
+    print(file_path)
+
 # 新しいファイルパスを指定
 new_file_path = 'test_dividendlist.csv'
 
@@ -49,7 +55,12 @@ print(df.head())
 #########################################
 
 # 元のファイルパスを指定
-file_path = 'DISTRIBUTION.csv'
+# 一つしかないと仮定して、ファイルパスを指定
+tmp_file_path = 'DISTRIBUTION*.csv'
+matching_files = glob.glob(tmp_file_path)
+for file_path in matching_files:
+    print(file_path)
+
 # 新しいファイルパスを指定
 new_file_path = 'test_DISTRIBUTION.csv'
 
@@ -91,13 +102,13 @@ df.to_csv(new_file_path, index=False)
 # 結果を確認するために最初の数行を表示
 #print(df.head())
 
-#　SBI証券の配当金明細書のCSVファイルと楽天証券の配当金明細書のCSVファイルを読み込み、
-#  SBI証券の下に楽天証券の配当金明細書のCSVファイルをマージする。
-#　マージした結果をCSVファイルに保存する。
+#SBI証券の配当金明細書のCSVファイルと楽天証券の配当金明細書のCSVファイルを読み込み、
+#SBI証券の下に楽天証券の配当金明細書のCSVファイルをマージする。
+#マージした結果をCSVファイルに保存する。
 # ファイルパスを指定
 sbi_file_path = 'test_DISTRIBUTION.csv'
 rakuten_file_path = 'test_dividendlist.csv'
-merged_dfmerged_file_path = 'merged.csv'
+merged_file_path = 'merged.csv'
 
 # SBI証券のCSVファイルを読み込む
 sbi_df = pd.read_csv(sbi_file_path)
@@ -122,7 +133,9 @@ merged_df = merged_df.drop(merged_df.columns[[7, 8, 9, 10]], axis=1)
 # マージ結果をCSVファイルに保存
 merged_df.to_csv(merged_file_path, index=False)
 
+
 # 結果を確認するために最初の数行を表示
 print(merged_df.head())
+
 
 
