@@ -20,18 +20,28 @@ def extract_alpha(cell):
 # 元のファイルパスを指定
 # 一つしかないと仮定して、ファイルパスを指定
 tmp_file_path = 'dividendlist*.csv'
-matching_files = glob.glob(tmp_file_path)
-for file_path in matching_files:
-    print(file_path)
+file_paths = glob.glob(tmp_file_path)
+#//////////////////////////////////////////////
+print("Found files:", file_paths)
+#//////////////////////////////////////////////
+
+file_path = file_paths[0] if file_paths else None
+
 
 # 新しいファイルパスを指定
 new_file_path = 'test_dividendlist.csv'
 
 # 元のファイルを読み込む（エンコーディングには注意が必要です）
-df = pd.read_csv(file_path, encoding='cp932')  # または 'utf-8' など、ファイルに合わせて変更してください
+if file_path:
+    df = pd.read_csv(file_path, encoding='cp932')
 
-# dfの2列目と3列目を入れ替え
-df[df.columns[1]], df[df.columns[2]] = df[df.columns[2]], df[df.columns[1]]
+    # dfの2列目と3列目を入れ替え
+    df[df.columns[1]], df[df.columns[2]] = df[df.columns[2]], df[df.columns[1]]
+
+else:
+    print("No files matched the pattern")
+    # ここで処理を終了させるか、適切な処理を行う
+
 
 # 一列目が日付だが、一列目でソートする。日付の昇順になる。
 # 日付列を日付型に変換
@@ -57,15 +67,20 @@ print(df.head())
 # 元のファイルパスを指定
 # 一つしかないと仮定して、ファイルパスを指定
 tmp_file_path = 'DISTRIBUTION*.csv'
-matching_files = glob.glob(tmp_file_path)
-for file_path in matching_files:
-    print(file_path)
+file_paths = glob.glob(tmp_file_path)
+#//////////////////////////////////////////////
+print("Found files:", file_paths)
+#//////////////////////////////////////////////
+file_path = file_paths[0] if file_paths else None
 
 # 新しいファイルパスを指定
 new_file_path = 'test_DISTRIBUTION.csv'
 
 # 最初の10行をスキップし、11行目をヘッダーとして読み込む
-df = pd.read_csv(file_path, skiprows=10, encoding='cp932')
+if file_path:
+    df = pd.read_csv(file_path, skiprows=10, encoding='cp932')  # または 'utf-8' など、ファイルに合わせて変更してください
+else:
+    print("No files matched the pattern")
 
 # dfの2列目と3列目のあいだに列を挿入し、ヘッダーを銘柄コードとする。
 df.insert(3, '銘柄コード', '')
@@ -133,9 +148,6 @@ merged_df = merged_df.drop(merged_df.columns[[7, 8, 9, 10]], axis=1)
 # マージ結果をCSVファイルに保存
 merged_df.to_csv(merged_file_path, index=False)
 
-
 # 結果を確認するために最初の数行を表示
 print(merged_df.head())
-
-
 
