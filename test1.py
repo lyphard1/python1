@@ -2,6 +2,7 @@
 import pandas as pd
 import re  # 正規表現ライブラリをインポート
 import glob
+import os
 
 #########################################
 # 5列目のデータからアルファベットのみの文字列を抽出する関数の定義
@@ -12,6 +13,14 @@ def extract_alpha(cell):
     extracted = re.search(r'([A-Za-z]+)$', cell)
     return extracted.group(0) if extracted else cell
 #########################################
+
+
+# 現在のカレントディレクトリを確認
+print("Current Directory:", os.getcwd())
+
+# カレントディレクトリのファイルをすべて取得して、ファイル名を表示する
+file_paths = glob.glob('*')
+print("Found files:", file_paths)
 
 #########################################
 # 楽天証券の配当金明細書のCSVファイルを読み込む
@@ -25,8 +34,15 @@ file_paths = glob.glob(tmp_file_path)
 print("Found files:", file_paths)
 #//////////////////////////////////////////////
 
-file_path = file_paths[0] if file_paths else None
+# ファイルパスのロギング
+print("Found files:", file_paths)
 
+# ファイルが存在しない場合のエラーハンドリング
+if not file_paths:
+    print("No files matched the pattern: " + tmp_file_path)
+    sys.exit(1)  # スクリプトを終了
+
+file_path = file_paths[0]  # 最初のマッチしたファイルを選択
 
 # 新しいファイルパスを指定
 new_file_path = 'test_dividendlist.csv'
