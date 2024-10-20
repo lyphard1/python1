@@ -1,0 +1,19 @@
+/**
+ * This function calculates the enthalpy of a system.
+ *
+ * Enthalpy is a thermodynamic property of a system that reflects the total heat content.
+ * It is defined as the sum of the internal energy of the system plus the product of the pressure and volume of the system.
+ *
+ * The formula for enthalpy (H) is:
+ * H = U + PV
+ * where:
+ * - H is the enthalpy
+ * - U is the internal energy
+ * - P is the pressure
+ * - V is the volume
+ *
+ * @param {number} internalEnergy - The internal energy of the system (U).
+ * @param {number} pressure - The pressure of the system (P).
+ * @param {number} volume - The volume of the system (V).
+ * @returns {number} The calculated enthalpy of the system.
+ */
